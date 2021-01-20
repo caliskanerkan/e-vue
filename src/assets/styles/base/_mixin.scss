@@ -1,0 +1,6 @@
+// HEADLINES MIXIN
+@mixin headlines($font-size,$font-weight,$font-style) {
+  font-weight:$font-weight;
+  font-size:$font-size;
+  font-style:$font-style;
+}
