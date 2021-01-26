@@ -1,0 +1,43 @@
+.btn {
+    color: $dark;
+    font-weight: $normal;
+    font-size: $font-size-normal;
+    border: none;
+    border-radius: .1em;
+    cursor: pointer;
+    &:hover, &:focus {
+        transition: 500ms;
+        opacity: 0.8;
+    }
+}
+.btn--default {
+    padding: .5rem 1rem;
+    font-size: $font-size-normal;
+}
+.btn--big {
+    padding: .5rem 1rem;
+    font-size: $font-size-big;
+}
+.btn--extra {
+    padding: .75rem 1.25rem;
+    font-size: $font-size-bigger;
+}
+.btn--small {
+    padding: .25rem .5rem;
+    font-size: $font-size-small;
+}
+.btn--primary {
+    background: $primary;
+}
+.btn--success {
+    background: $success;
+}
+.btn-info {
+    background: $info;
+}
+.btn--warning {
+    background: $warning;
+}
+.btn--error {
+    background: $error;
+}
