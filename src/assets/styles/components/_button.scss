@@ -1,43 +1,91 @@
 .btn {
-    color: $dark;
+    color: $white;
     font-weight: $normal;
     font-size: $font-size-normal;
     border: none;
     border-radius: .1em;
+    outline: none;
+    display: inline-block;
     cursor: pointer;
-    &:hover, &:focus {
-        transition: 500ms;
-        opacity: 0.8;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    transition: 500ms all;
+    position: relative;
+}
+.btn--loading {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.btn--block {
+    display: block;
+    width: 100%;
+}
+.btn--content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    i{
+        margin-right: 5px;
     }
 }
-.btn--default {
-    padding: .5rem 1rem;
-    font-size: $font-size-normal;
+.btn__disable{
+    cursor: not-allowed;
 }
-.btn--big {
+.btn__normal {
     padding: .5rem 1rem;
+}
+.btn__big {
+    padding: .6rem 1.15rem;
     font-size: $font-size-big;
 }
-.btn--extra {
+.btn__extra {
     padding: .75rem 1.25rem;
-    font-size: $font-size-bigger;
 }
-.btn--small {
+.btn__small {
     padding: .25rem .5rem;
-    font-size: $font-size-small;
 }
-.btn--primary {
+.btn__primary {
     background: $primary;
+    &:hover,
+    &:focus {
+        background: darken($primary, 15%);
+    }
 }
-.btn--success {
+.btn__success {
     background: $success;
+    &:hover,
+    &:focus {
+        background: darken($success, 15%);
+    }
 }
-.btn-info {
+.btn__info {
     background: $info;
+    &:hover,
+    &:focus {
+        background: darken($info, 15%);
+    }
 }
-.btn--warning {
+.btn__warning {
+    color: $dark;
     background: $warning;
+    &:hover,
+    &:focus {
+        background: darken($warning, 15%);
+    }
 }
-.btn--error {
+
+.btn__error {
     background: $error;
+    &:hover,
+    &:focus {
+        background: darken($error, 15%);
+    }
+}
+.btn__round {
+    border-radius: 5em;
 }

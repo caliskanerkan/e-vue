@@ -1,7 +1,7 @@
 <template>
-  <div class="half-circle-spinner">
-    <div :class="classBinder"></div>
-    <div :class="classBinder"></div>
+  <div class="spinner" :style="spinnerSize">
+    <div class="spinner--item" :style="{'border-top-color': color}" :class="spinnerClasses"></div>
+    <div class="spinner--item" :style="{'border-bottom-color': color}" :class="spinnerClasses"></div>
   </div>
 </template>
 <script>
@@ -17,9 +17,9 @@ export default {
       }
     },
     size: {
-      default: 12,
+      default: 20,
       type: Number,
-      required: false
+      required: true
     },
     color: {
       type: String,
@@ -28,16 +28,28 @@ export default {
     }
   },
   setup (props) {
-    const { color, size } = toRefs(props)
-    const circleColor = computed(() => {
-      return `border-bottom-color:${color.value}`
+    const { color, size, speed } = toRefs(props)
+    // const borderSize = computed(() => {
+    //   return {
+    //     border: `${size.value / 10}px solid transparent`
+    //   }
+    // })
+    const spinnerClasses = computed(() => {
+      return {
+        [`spinner__border__${speed.value}`]: speed.value
+      }
     })
-    const classBinder = computed(() => {
-
+    const spinnerSize = computed(() => {
+      return {
+        width: `${size.value}px`,
+        height: `${size.value}px`
+      }
     })
     return {
-      classBinder,
-      circleColor,
+      spinnerClasses,
+      spinnerSize,
+      // eslint-disable-next-line
+      speed,
       // eslint-disable-next-line
       color,
       // eslint-disable-next-line

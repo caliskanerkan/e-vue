@@ -1,0 +1,33 @@
+@keyframes spinner-animation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+.spinner {
+	box-sizing: border-box;
+	border-radius: 100%;
+	position: relative;
+	* {
+		box-sizing: border-box;
+	}
+	.spinner--item {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 100%;
+		border: 2px solid transparent;
+	}
+	.spinner__border__slow {
+		animation: spinner-animation 1s infinite;
+	}
+	.spinner__border__normal {
+		animation: spinner-animation .75s infinite;
+	}
+	.spinner__border__fast {
+		animation: spinner-animation .25s infinite;
+	}
+}

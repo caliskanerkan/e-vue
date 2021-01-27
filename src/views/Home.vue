@@ -1,22 +1,20 @@
 <template>
-  <div style="text-align:center;margin-top:10px">
-    <Button color="primary"> <Spinner :size="13" speed="fast" color="pink" /></Button>
-  </div>
+  <Button color="success" :loading="loading" :disabled="loading" size="extra" icon="fas fa-home"></Button>
 </template>
 
 <script>
-import Button from '@/components/Button'
-import Spinner from '@/components/Spinner'
 import { ref } from 'vue'
+import Button from '@/components/Button'
 export default {
   components: {
-    Spinner,
     Button
   },
   setup () {
-    const user = ref('Erkan')
+    const loading = ref(false)
+    const a = () => console.log('a')
     return {
-      user
+      a,
+      loading
     }
   }
 }
