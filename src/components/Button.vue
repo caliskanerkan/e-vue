@@ -1,23 +1,24 @@
 <template>
-    <button :class="btnClasses" :disabled="disabled">
-      <slot>
-        <span class="btn--content" :style="{opacity: btnLabelOpacity}">
-          <Icon v-if="icon" name="fas fa-home" />
-          {{label}}
-        </span>
-        <span v-if="loading" class="btn--loading">
-          <spinner speed="normal" :size="25" color="#fff" />
-        </span>
-      </slot>
+    <button :class="btnClasses" :style="iconSizer" :disabled="disabled">
+      <span class="btn--content" :style="{opacity: btnLabelOpacity}">
+          <slot></slot>
+      </span>
+      <span v-if="loading" class="btn--loading">
+        <spinner speed="normal" :size="20" color="#fff" />
+      </span>
     </button>
 </template>
 <script>
 import { toRefs, computed } from 'vue'
 import Spinner from './Spinner.vue'
-import Icon from './Icon.vue'
 export default {
-  components: { Spinner, Icon },
+  components: { Spinner },
   props: {
+    outline: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     block: {
       type: Boolean,
       required: false,
@@ -26,7 +27,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: null,
+      default: 'secondary',
       validator: function (value) {
         return ['primary', 'secondary', 'success', 'info', 'warning', 'error'].indexOf(value) !== -1
       }
@@ -45,10 +46,6 @@ export default {
       type: Boolean,
       required: false
     },
-    label: {
-      type: String,
-      required: false
-    },
     size: {
       type: String,
       required: false,
@@ -57,16 +54,32 @@ export default {
         return ['big', 'extra', 'small', 'normal'].indexOf(value) !== -1
       }
     },
-    icon: {
-      type: String,
-      required: false
+    fab: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   },
   setup (props) {
-    const { color, size, disabled, loading, round, block, label } = toRefs(props)
+    const { color, size, disabled, loading, round, block, fab, outline } = toRefs(props)
+    const type = {
+      big: 50,
+      extra: 60,
+      normal: 40,
+      small: 30
+    }
     const blockBtn = computed(() => {
       return {
         'btn--flex': block.value
+      }
+    })
+    const iconSizer = computed(() => {
+      if (fab.value) {
+        return {
+          height: `${type[size.value]}px !important`,
+          width: `${type[size.value]}px !important`,
+          borderRadius: '50%'
+        }
       }
     })
     const btnLabelOpacity = computed(() => loading.value ? 0 : 1)
@@ -78,15 +91,15 @@ export default {
         // eslint-disable-next-line
         [`btn__${size.value}`]: size.value,
         btn__round: round.value,
-        'btn--block': block.value,
-        btn__disable: disabled.value
+        btn__block: block.value,
+        btn__disable: disabled.value,
+        [`btn__outline__${color.value}`]: outline.value
       }
     })
     return {
+      iconSizer,
       btnLabelOpacity,
       blockBtn,
-      // eslint-disable-next-line
-      label,
       btnClasses
     }
   }

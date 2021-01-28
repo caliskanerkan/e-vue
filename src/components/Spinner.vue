@@ -24,16 +24,12 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'red'
+      default: '#fff'
     }
   },
   setup (props) {
     const { color, size, speed } = toRefs(props)
-    // const borderSize = computed(() => {
-    //   return {
-    //     border: `${size.value / 10}px solid transparent`
-    //   }
-    // })
+
     const spinnerClasses = computed(() => {
       return {
         [`spinner__border__${speed.value}`]: speed.value

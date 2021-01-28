@@ -21,7 +21,7 @@
     top: 0;
     width: 100%;
 }
-.btn--block {
+.btn__block {
     display: block;
     width: 100%;
 }
@@ -30,8 +30,11 @@
     align-items: center;
     justify-content: center;
     i{
-        margin-right: 5px;
+        margin: 0px 5px;
     }
+}
+.abc{
+    background-color: red !important;
 }
 .btn__disable{
     cursor: not-allowed;
@@ -40,11 +43,10 @@
     padding: .5rem 1rem;
 }
 .btn__big {
-    padding: .6rem 1.15rem;
-    font-size: $font-size-big;
+    padding: .75rem 1.25rem;
 }
 .btn__extra {
-    padding: .75rem 1.25rem;
+    padding: 1rem 1.5rem;
 }
 .btn__small {
     padding: .25rem .5rem;
@@ -78,7 +80,13 @@
         background: darken($warning, 15%);
     }
 }
-
+.btn__secondary {
+    background: $secondary;
+    &:hover,
+    &:focus {
+        background: darken($secondary, 15%);
+    }
+}
 .btn__error {
     background: $error;
     &:hover,
@@ -86,6 +94,63 @@
         background: darken($error, 15%);
     }
 }
+
 .btn__round {
     border-radius: 5em;
+}
+
+.btn__outline__primary {
+    background: #fff;
+    border: 1px solid $primary;
+    color: $primary;
+    &:hover,
+    &:focus {
+        background: $primary-outline;
+    }
+}
+.btn__outline__success {
+    background: #fff;
+    border: 1px solid $success;
+    color: $success;
+    &:hover,
+    &:focus {
+        background: $success-outline;
+    }
+}
+.btn__outline__secondary {
+    background: #fff;
+    border: 1px solid $secondary;
+    color: $dark;
+    &:hover,
+    &:focus {
+        background: $secondary-outline;
+    }
+}
+.btn__outline__info {
+    background: #fff;
+    color: $info;
+    border: 1px solid $info;
+    &:hover,
+    &:focus {
+        background: $info-outline;
+    }
+}
+.btn__outline__warning {
+    background: #fff;
+    border: 1px solid $warning;
+    color: $warning;
+    &:hover,
+    &:focus {
+        background: $warning-outline;
+    }
+}
+
+.btn__outline__error {
+    background: #fff;
+    border: 1px solid $error;
+    color: $error;
+    &:hover,
+    &:focus {
+        background: $error-outline;
+    }
 }

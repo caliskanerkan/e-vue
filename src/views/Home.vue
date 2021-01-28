@@ -1,5 +1,7 @@
 <template>
-  <Button color="success" :loading="loading" :disabled="loading" size="extra" icon="fas fa-home"></Button>
+  <div style="height:100vh;display:flex;align-items:center;justify-content:center">
+    <Button outline>I'am button.</Button>
+  </div>
 </template>
 
 <script>
