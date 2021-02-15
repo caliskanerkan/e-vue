@@ -1,5 +1,5 @@
 <template>
-    <i :class="name" :style="{'font-size': `${size}px`, color}"></i>
+  <i :class="name" :style="{ 'font-size': `${size}px`, color }"></i>
 </template>
 
 <script>

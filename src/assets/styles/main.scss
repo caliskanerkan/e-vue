@@ -2,5 +2,9 @@
 @import './utils/variables';
 @import './base/mixin';
 @import './base/typography';
+@import './utils/generals';
+@import './utils/transitions';
 @import './components/button';
-@import './components/spinner'
+@import './components/spinner';
+@import './components/alert';
+@import './components/modal';

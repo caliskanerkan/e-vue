@@ -1,0 +1,99 @@
+.alert {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1;
+  padding: 10px 10px;
+  font-size: 15px;
+  i {
+      color: $white;
+      font-size: 20px;
+  }
+  &:nth-child(1) {
+    i {
+      padding-right: 10px;
+    }
+  }
+}
+.alert--content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.alert--close {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.alert__primary {
+  background: $primary;
+  color: $white;
+}
+.alert__success {
+  background: $success;
+  color: $white;
+}
+.alert__info {
+  background: $info;
+}
+.alert__warning {
+  background: $warning;
+  color: $dark;
+}
+.alert__secondary {
+  background: $secondary;
+  color: $white;
+}
+.alert__error {
+  background: $error;
+  color: $white;
+}
+.alert__outline__primary {
+  background: #fff;
+  border: 1px solid $primary;
+  color: $primary;
+  background: $primary-outline;
+  i {
+    color: $primary;
+  }
+}
+.alert__outline__success {
+  border: 1px solid $success;
+  background: $success-outline;
+  color: $success;
+  i {
+    color: $success;
+  }
+}
+.alert__outline__secondary {
+  background: $secondary-outline;
+  border: 1px solid $secondary;
+  color: $secondary;
+  i {
+    color: $secondary;
+  }
+}
+.alert__outline__info {
+  color: $info;
+  border: 1px solid $info;
+  background: $info-outline;
+  i {
+    color: $info;
+  }
+}
+.alert__outline__warning {
+  border: 1px solid $warning;
+  background: $warning-outline;
+  color: $warning;
+  i {
+    color: $warning;
+  }
+}
+
+.alert__outline__error {
+  border: 1px solid $error;
+  color: $error;
+  background: $error-outline;
+  i {
+    color: $error;
+  }
+}

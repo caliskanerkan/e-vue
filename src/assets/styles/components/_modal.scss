@@ -1,0 +1,29 @@
+.modal {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 2rem;
+  background: #fff;
+  z-index: 999;
+  transform: none;
+}
+.modal--overlay {
+  cursor: pointer;
+  content: "";
+  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, .4);
+  cursor: pointer;
+}

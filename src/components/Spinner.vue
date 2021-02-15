@@ -1,7 +1,15 @@
 <template>
   <div class="spinner" :style="spinnerSize">
-    <div class="spinner--item" :style="{'border-top-color': color}" :class="spinnerClasses"></div>
-    <div class="spinner--item" :style="{'border-bottom-color': color}" :class="spinnerClasses"></div>
+    <div
+      class="spinner--item"
+      :style="{ 'border-top-color': color }"
+      :class="spinnerClasses"
+    ></div>
+    <div
+      class="spinner--item"
+      :style="{ 'border-bottom-color': color }"
+      :class="spinnerClasses"
+    ></div>
   </div>
 </template>
 <script>
@@ -12,7 +20,7 @@ export default {
       default: 'normal',
       type: String,
       required: false,
-      validator: function (value) {
+      validator: function(value) {
         return ['fast', 'slow', 'normal'].indexOf(value) !== -1
       }
     },
@@ -27,8 +35,8 @@ export default {
       default: '#fff'
     }
   },
-  setup (props) {
-    const { color, size, speed } = toRefs(props)
+  setup(props) {
+    const { size, speed } = toRefs(props)
 
     const spinnerClasses = computed(() => {
       return {
@@ -44,12 +52,6 @@ export default {
     return {
       spinnerClasses,
       spinnerSize,
-      // eslint-disable-next-line
-      speed,
-      // eslint-disable-next-line
-      color,
-      // eslint-disable-next-line
-      size
     }
   }
 }
