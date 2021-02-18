@@ -1,12 +1,10 @@
 <template>
   <div class="spinner" :style="spinnerSize">
     <div
-      class="spinner--item"
       :style="{ 'border-top-color': color }"
       :class="spinnerClasses"
     ></div>
     <div
-      class="spinner--item"
       :style="{ 'border-bottom-color': color }"
       :class="spinnerClasses"
     ></div>
@@ -40,7 +38,8 @@ export default {
 
     const spinnerClasses = computed(() => {
       return {
-        [`spinner__border__${speed.value}`]: speed.value
+        spinner__item: true,
+        [`spinner--border--${speed.value}`]: speed.value
       }
     })
     const spinnerSize = computed(() => {

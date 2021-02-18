@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/styles/main.scss";
-import 'animate.css';
+import "animate.css";
 createApp(App)
   .use(router)
   .directive("click-outside", {

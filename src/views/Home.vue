@@ -1,8 +1,10 @@
 <template>
-  <Button color="primary" @click="onClick">Open</Button>
-  <Modal v-model="show"></Modal>
-  <Alert closeable color="primary" animate>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate inventore ullam fuga delectus nihil. Accusantium debitis sequi natus, cum quod ratione facere recusandae dolore libero minima exercitationem architecto, tempore et?
+  <Button loading @click="onClick">Mokoko</Button>
+  <Modal v-model="show">
+    <div>Deneme</div>
+  </Modal>
+  <Alert closeable icon="fas fa-info">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium id enim quod, similique libero harum aliquid nam exercitationem quos ipsam? Repellendus quae animi delectus voluptas quis ratione commodi id dolore?
   </Alert>
 </template>
 <script>
@@ -14,7 +16,7 @@ export default {
   components: {
     Alert,
     Modal,
-    Button
+    Button,
   },
   setup() {
     const show = ref(false);
@@ -22,8 +24,8 @@ export default {
       show.value = true;
     };
     return {
-      show,
       onClick,
+      show,
     };
   },
 };

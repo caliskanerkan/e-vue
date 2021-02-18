@@ -6,15 +6,25 @@
   bottom: 0;
   left: 0;
   margin: auto;
-  text-align: center;
   width: fit-content;
   height: fit-content;
-  padding: 2rem;
-  background: #fff;
+  background: $white;
+  padding: 5px;
   z-index: 999;
+  width: 100%;
   transform: none;
+  outline: none;
+  border-radius: 3px;
 }
-.modal--overlay {
+.modal__close {
+  position: absolute;
+  cursor: pointer;
+  font-size: 25px;
+  z-index: 10000;
+  top: -30px;
+  right: 0;
+}
+.modal__overlay {
   cursor: pointer;
   content: "";
   position: absolute;
@@ -26,4 +36,21 @@
   z-index: 998;
   background: rgba(0, 0, 0, .4);
   cursor: pointer;
+}
+
+.modal--md {
+  max-width: 450px;
+}
+.modal--sm {
+  max-width: 300px;
+}
+.modal--lg {
+  max-width: 768px;
+}
+.modal--xl {
+  max-width: 1024px;
+}
+.modal--fullscreen{
+  height: 100vh;
+  max-width: 100%;
 }

@@ -6,12 +6,12 @@
   </Alert> -->
   <transition :name="alertAnimation">
     <div v-if="show" :class="alertClasses">
-      <i v-if="icon" :class="icon"></i>
-      <div class="alert--content"><slot></slot></div>
+      <i v-if="icon" :class="iconClasses"></i>
+      <div class="alert__content"><slot></slot></div>
       <i
         v-if="closeable"
         @click="close"
-        class="cursor-pointer alert--close fas fa-times"
+        class="cursor-pointer alert__close fas fa-times"
       ></i>
     </div>
   </transition>
@@ -30,7 +30,7 @@ export default {
       required: false,
       type: String,
       default: "primary",
-      validator: function (val) {
+      validator: function (value) {
         return (
           [
             "primary",
@@ -39,14 +39,9 @@ export default {
             "info",
             "warning",
             "error",
-          ].indexOf(val) !== -1
+          ].indexOf(value) !== -1
         );
       },
-    },
-    animate: {
-      type: Boolean,
-      default: false,
-      required: false
     },
     icon: {
       type: String,
@@ -61,21 +56,28 @@ export default {
   },
   setup(props) {
     const show = ref(true);
-    const { outline, color, animate } = toRefs(props);
+    const { outline, color, closeable, icon } = toRefs(props);
     const alertClasses = computed(() => {
       return {
         alert: true,
-        [`alert__${color.value}`]: color.value,
-        [`alert__outline__${color.value}`]: outline.value,
+        [`alert--${color.value}`]: color.value,
+        [`alert--outline--${color.value}`]: outline.value,
       };
     });
+    const iconClasses = computed(() => {
+      return {
+        alert__content__pre: true,
+        [icon.value]: icon.value
+      }
+    })
     const alertAnimation = computed(() => {
-        return animate.value && "slide-fade"
+        return closeable.value && "slide-fade"
     });
     const close = () => {
       show.value = false;
     };
     return {
+      iconClasses,
       alertAnimation,
       alertClasses,
       show,

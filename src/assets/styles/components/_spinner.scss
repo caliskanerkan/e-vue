@@ -13,21 +13,21 @@
 	* {
 		box-sizing: border-box;
 	}
-	.spinner--item {
-		content: "";
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		border-radius: 100%;
-		border: 2px solid transparent;
-	}
-	.spinner__border__slow {
-		animation: spinner-animation 1s infinite;
-	}
-	.spinner__border__normal {
-		animation: spinner-animation .75s infinite;
-	}
-	.spinner__border__fast {
-		animation: spinner-animation .25s infinite;
-	}
+}
+.spinner__item {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	border: 2px solid transparent;
+}
+.spinner--border--slow {
+	animation: spinner-animation 1s infinite;
+}
+.spinner--border--normal {
+	animation: spinner-animation .75s infinite;
+}
+.spinner--border--fast {
+	animation: spinner-animation .25s infinite;
 }
