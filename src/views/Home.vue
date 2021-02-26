@@ -1,6 +1,6 @@
 <template>
   <div style="padding:150px">
-    <e-select v-model="text" option-text="ahmet" option-value="value" return-object clearable :options="options"/>
+    <e-select v-model="text" clearable option-text="name" option-value="value" multiple return-object :options="options"/>
   </div>
 </template>
 <script>
@@ -12,7 +12,8 @@ export default {
   },
   setup() {
     const text = ref("")
-    const options = ref([{ahmet:'Erkan', value: 5}, {ahmet:'Ahmet', value: 3}])
+    // const options = ref(["erkan","ahmet","mehmet"])
+    const options = ref([{name:'Erkan', value: 5}, {name:'Ahmet', value: 3}])
     return {
       text,
       options

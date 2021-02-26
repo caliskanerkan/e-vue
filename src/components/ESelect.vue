@@ -5,20 +5,39 @@
         <div>{{ value }}</div>
       </div>
       <div class="select__icon__container">
-        <i v-if="clearable && modelValue" @click.stop @click="$emit('update:modelValue', '')" :class="selectClearableClasses"></i>
+        <i
+          v-if="clearable && modelValue"
+          @click.stop
+          @click="$emit('update:modelValue', '')"
+          :class="selectClearableClasses"
+        ></i>
         <i :class="selectArrowClasses"></i>
       </div>
     </div>
-    <transition>
+    <transition
+      appear
+      enter-active-class="animate__animated animate__faster animate__fadeIn"
+      enter-class="animate__animated animate__faster animate__fadeIn"
+      leave-active-class="animate__animated animate__faster animate__fadeOut"
+      leave-class="animate__animated animate__faster animate__fadeOut"
+    >
       <div ref="select" class="select__list" @click.stop v-if="show">
         <div class="select__search" v-if="searchable">
-          <input :placeholder="qPlaceholder" type="text" :value="q" @input="e => q = e.target.value">
+          <input
+            :placeholder="qPlaceholder"
+            type="text"
+            :value="q"
+            @input="(e) => (q = e.target.value)"
+          />
         </div>
         <div
           @click="updateValue(option)"
           v-for="(option, index) in searchableOptions"
           :key="index"
-          :class="[selectListItemClasses, { 'select__list__item--active': activeHandler(option) }]"
+          :class="[
+            selectListItemClasses,
+            { 'select__list__item--active': activeHandler(option) },
+          ]"
         >
           {{ selectLabelText(option) }}
         </div>
@@ -37,17 +56,17 @@ export default {
     returnObject: {
       required: false,
       type: Boolean,
-      default: false
+      default: false,
     },
     optionText: {
       required: false,
       type: String,
-      default: ""
+      default: "",
     },
     optionValue: {
       required: false,
       type: String,
-      default: ""
+      default: "",
     },
     label: {
       type: String,
@@ -66,20 +85,28 @@ export default {
     },
     modelValue: {
       required: true,
-      type: [String, Array]
+      type: [String, Array, Object, Number],
     },
     clearable: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const { label, modelValue, options, optionText, optionValue, returnObject } = toRefs(props);
+    const {
+      label,
+      modelValue,
+      options,
+      optionValue,
+      optionText,
+      returnObject,
+      multiple,
+    } = toRefs(props);
 
     const show = ref(false);
-    const q = ref("")
+    const q = ref("");
     const select = ref();
 
     const selectClasses = computed(() => {
@@ -104,35 +131,81 @@ export default {
     const selectClearableClasses = computed(() => {
       return {
         select__icon: true,
-        "fas fa-times": true
-      }
-    })
+        "fas fa-times": true,
+      };
+    });
     const selectListItemClasses = computed(() => {
       return {
-        select__list__item: true
-      }
-    })
+        select__list__item: true,
+      };
+    });
     const value = computed(() => {
       return modelValue.value ? modelValue.value : label.value;
     });
-    const qPlaceholder = computed(() => `${label.value} Search`)
+    const qPlaceholder = computed(() => `${label.value} Search`);
     const searchableOptions = computed(() => {
-      if(!q.value) return options.value;
-    })
-
+      if (!q.value) return options.value;
+    });
     const selectLabelText = (option) => {
-      if(optionText.value) return option[optionText.value]
-      else return option
-    }
+      if (optionText.value) return option[optionText.value];
+      else return option;
+    };
     const close = () => {
       show.value = false;
     };
     const toggle = () => {
       show.value = !show.value;
     };
-    const activeHandler = (option) => modelValue.value === option
+
+    const valueStringTypeHandler = (option) => {
+      if (multiple.value) {
+        const index = modelValue.value.indexOf(option);
+        index >= 0
+          ? emit(
+              "update:modelValue",
+              modelValue.value.filter((v) => v !== option)
+            )
+          : emit("update:modelValue", [...modelValue.value, option]);
+      } else emit("update:modelValue", option);
+    };
+    const valueObjectTypeHandler = (option) => {
+      const key = optionValue.value;
+      if (multiple.value) {
+        if (modelValue.value.length === 0)
+          emit(
+            "update:modelValue",
+            returnObject.value ? [option] : [option[optionValue.value]]
+          );
+        else {
+          const index = modelValue.value.findIndex((val) =>
+            returnObject.value ? val[key] === option[key] : val === option[key]
+          );
+          index >= 0
+            ? emit(
+                "update:modelValue",
+                modelValue.value.filter((val) =>
+                  returnObject.value
+                    ? val[key] !== option[key]
+                    : val !== option[key]
+                )
+              )
+            : emit("update:modelValue", [
+                ...modelValue.value,
+                returnObject.value ? option : option[key],
+              ]);
+        }
+      } else
+        return emit(
+          "update:modelValue",
+          returnObject.value ? option : option[key]
+        );
+    };
+    const activeHandler = (option) => modelValue.value === option;
     const updateValue = (option) => {
-      if(returnObject.value) emit("update:modelValue", options.value.find(opt => opt[optionValue.value] === option[optionValue.value]))
+      const [firstValue] = options.value;
+      const firstValueOfType = typeof firstValue;
+      if (firstValueOfType === "string") valueStringTypeHandler(option);
+      else if (firstValueOfType === "object") valueObjectTypeHandler(option);
     };
     return {
       q,
@@ -150,7 +223,7 @@ export default {
       activeHandler,
       value,
       toggle,
-      close
+      close,
     };
   },
 };
