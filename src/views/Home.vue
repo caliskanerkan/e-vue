@@ -1,6 +1,6 @@
 <template>
   <div style="padding:150px">
-    <e-select v-model="text" clearable option-text="name" option-value="value" multiple return-object :options="options"/>
+    <e-select v-model="text" clearable option-text="name" option-value="value" return-object multiple :options="options"/>
   </div>
 </template>
 <script>

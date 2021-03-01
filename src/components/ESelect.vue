@@ -2,11 +2,11 @@
   <div v-click-outside="close" :class="selectClasses" @click="toggle">
     <div :class="selectValueClasses">
       <div class="select__label">
-        <div>{{ value }}</div>
+        <div>{{ valueText }}</div>
       </div>
       <div class="select__icon__container">
         <i
-          v-if="clearable && modelValue"
+          v-if="clearable && !empty"
           @click.stop
           @click="$emit('update:modelValue', '')"
           :class="selectClearableClasses"
@@ -94,6 +94,7 @@ export default {
     },
   },
   emits: ["update:modelValue"],
+  // TODO => active-class for multiple/return-object/single-object
   setup(props, { emit }) {
     const {
       label,
@@ -139,9 +140,47 @@ export default {
         select__list__item: true,
       };
     });
-    const value = computed(() => {
-      return modelValue.value ? modelValue.value : label.value;
+    const empty = computed(
+      () =>
+        !modelValue.value ||
+        (Array.isArray(modelValue.value) && modelValue.value.length === 0)
+    );
+    const valueText = computed(() => {
+      const type = firstOptionOfType();
+      if (empty.value) return "Select";
+      if (type === "string") {
+        if (multiple.value) return multipleValue(type);
+        else return modelValue.value;
+      } else {
+        if (multiple.value) return multipleValue(type);
+        else
+          return returnObject.value
+            ? modelValue.value[optionText.value]
+            : valueReturner(modelValue.value);
+      }
     });
+    const multipleValue = (type) => {
+      let _value = "";
+      if (type === "string") {
+        modelValue.value.map((item, index) => {
+          _value += index !== modelValue.value.length - 1 ? `${item},` : item;
+        });
+      } else {
+        modelValue.value.map((item, index) => {
+          if (index !== modelValue.value.length - 1) {
+            _value += returnObject.value
+              ? `${item[optionText.value]},`
+              : `${valueReturner(item)},`;
+          } else {
+            _value += returnObject.value
+              ? `${item[optionText.value]}`
+              : valueReturner(item);
+          }
+        });
+      }
+      return _value;
+    };
+    const valueReturner = (item) => options.value.filter((opt) => opt[optionValue.value] === item)[0].name;
     const qPlaceholder = computed(() => `${label.value} Search`);
     const searchableOptions = computed(() => {
       if (!q.value) return options.value;
@@ -156,7 +195,6 @@ export default {
     const toggle = () => {
       show.value = !show.value;
     };
-
     const valueStringTypeHandler = (option) => {
       if (multiple.value) {
         const index = modelValue.value.indexOf(option);
@@ -200,15 +238,19 @@ export default {
           returnObject.value ? option : option[key]
         );
     };
+    const firstOptionOfType = () => {
+      const [firstValue] = options.value;
+      return typeof firstValue;
+    };
     const activeHandler = (option) => modelValue.value === option;
     const updateValue = (option) => {
-      const [firstValue] = options.value;
-      const firstValueOfType = typeof firstValue;
+      const firstValueOfType = firstOptionOfType();
       if (firstValueOfType === "string") valueStringTypeHandler(option);
       else if (firstValueOfType === "object") valueObjectTypeHandler(option);
     };
     return {
       q,
+      empty,
       select,
       show,
       selectClasses,
@@ -221,9 +263,9 @@ export default {
       updateValue,
       selectLabelText,
       activeHandler,
-      value,
+      valueText,
       toggle,
-      close,
+      close
     };
   },
 };
