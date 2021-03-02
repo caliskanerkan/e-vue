@@ -72,6 +72,7 @@
   transition: 200ms all;
   background: $primary;
   color: #fff !important;
+  border-bottom: $select-border;
 }
 .select--focus {
   border-color: $primary;

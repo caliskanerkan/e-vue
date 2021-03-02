@@ -22,22 +22,11 @@
       leave-class="animate__animated animate__faster animate__fadeOut"
     >
       <div ref="select" class="select__list" @click.stop v-if="show">
-        <div class="select__search" v-if="searchable">
-          <input
-            :placeholder="qPlaceholder"
-            type="text"
-            :value="q"
-            @input="(e) => (q = e.target.value)"
-          />
-        </div>
         <div
           @click="updateValue(option)"
-          v-for="(option, index) in searchableOptions"
+          v-for="(option, index) in options"
           :key="index"
-          :class="[
-            selectListItemClasses,
-            { 'select__list__item--active': activeHandler(option) },
-          ]"
+          :class="[selectListItemClasses, { 'select__list__item--active': activeHandler(option) }]"
         >
           {{ selectLabelText(option) }}
         </div>
@@ -48,6 +37,7 @@
 <script>
 import { ref, computed, toRefs } from "vue";
 export default {
+  // Will make refactor
   props: {
     options: {
       required: true,
@@ -68,16 +58,6 @@ export default {
       type: String,
       default: "",
     },
-    label: {
-      type: String,
-      default: "Select",
-      required: false,
-    },
-    searchable: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
     multiple: {
       type: Boolean,
       required: false,
@@ -92,22 +72,25 @@ export default {
       required: false,
       default: false,
     },
+    label: {
+      type: String,
+      required: false,
+      default: "Select"
+    }
   },
   emits: ["update:modelValue"],
-  // TODO => active-class for multiple/return-object/single-object
   setup(props, { emit }) {
     const {
-      label,
       modelValue,
       options,
       optionValue,
       optionText,
       returnObject,
       multiple,
+      label
     } = toRefs(props);
 
     const show = ref(false);
-    const q = ref("");
     const select = ref();
 
     const selectClasses = computed(() => {
@@ -147,7 +130,7 @@ export default {
     );
     const valueText = computed(() => {
       const type = firstOptionOfType();
-      if (empty.value) return "Select";
+      if (empty.value) return `${label.value}`;
       if (type === "string") {
         if (multiple.value) return multipleValue(type);
         else return modelValue.value;
@@ -181,10 +164,6 @@ export default {
       return _value;
     };
     const valueReturner = (item) => options.value.filter((opt) => opt[optionValue.value] === item)[0].name;
-    const qPlaceholder = computed(() => `${label.value} Search`);
-    const searchableOptions = computed(() => {
-      if (!q.value) return options.value;
-    });
     const selectLabelText = (option) => {
       if (optionText.value) return option[optionText.value];
       else return option;
@@ -242,14 +221,20 @@ export default {
       const [firstValue] = options.value;
       return typeof firstValue;
     };
-    const activeHandler = (option) => modelValue.value === option;
+    const activeHandler = (option) => {
+        const firstValueOfType = firstOptionOfType();
+        if(!modelValue.value) return false;
+        else if(firstValueOfType === "string") return modelValue.value.some(opt => option === opt)
+        else {
+          return modelValue.value.some(opt => option[optionValue.value] === (returnObject.value ? opt[optionValue.value] : opt))
+        }
+    };
     const updateValue = (option) => {
       const firstValueOfType = firstOptionOfType();
       if (firstValueOfType === "string") valueStringTypeHandler(option);
       else if (firstValueOfType === "object") valueObjectTypeHandler(option);
     };
     return {
-      q,
       empty,
       select,
       show,
@@ -258,8 +243,6 @@ export default {
       selectArrowClasses,
       selectClearableClasses,
       selectListItemClasses,
-      searchableOptions,
-      qPlaceholder,
       updateValue,
       selectLabelText,
       activeHandler,
