@@ -63,18 +63,34 @@
     padding: 11px 10px;
     &:hover {
         transition: 200ms all;
-        background: $primary;
-        color: #fff;
+        background: #e9ecef;
+        color: #000 !important;
     }
+  }
+}
+.select__search {
+  display: flex;
+  flex-flow: column nowrap;
+  border-bottom: $select-border;
+  input {
+    border: none;
+    outline: none;
+    padding: 7.5px 10px;
+    font-size: 15px;
+    color: #222;
   }
 }
 .select__list__item--active {
   transition: 200ms all;
-  background: $primary;
-  color: #fff !important;
-  border-bottom: $select-border;
+  background: #e9ecef;
+  color: #000 !important;
 }
 .select--focus {
-  border-color: $primary;
-  box-shadow: 0 0 1.25rem rgb(33 150 243 / 40%);
+  border-color: $select-border;
+  box-shadow: 0 0 1.25rem rgb(206 212 218 / 40%);
+}
+
+.select__search--no-data {
+  padding: 7.5px 10px;
+  color: #222;
 }

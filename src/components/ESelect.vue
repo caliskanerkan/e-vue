@@ -1,5 +1,5 @@
 <template>
-  <div v-click-outside="close" :class="selectClasses" @click="toggle">
+  <div v-click-outside="close" class="select" @click="toggle">
     <div :class="selectValueClasses">
       <div class="select__label">
         <div>{{ valueText }}</div>
@@ -21,10 +21,14 @@
       leave-active-class="animate__animated animate__faster animate__fadeOut"
       leave-class="animate__animated animate__faster animate__fadeOut"
     >
-      <div ref="select" class="select__list" @click.stop v-if="show">
+      <div class="select__list" @click.stop v-if="show">
+        <div class="select__search" v-if="searchable">
+          <input ref="searchRef" type="text" placeholder="Search..." v-model="search">
+        </div>
+        <div class="select__search--no-data" v-if="searchableOptions.length === 0" v-text="'No results found.'"></div>
         <div
           @click="updateValue(option)"
-          v-for="(option, index) in options"
+          v-for="(option, index) in searchableOptions"
           :key="index"
           :class="[selectListItemClasses, { 'select__list__item--active': activeHandler(option) }]"
         >
@@ -35,7 +39,7 @@
   </div>
 </template>
 <script>
-import { ref, computed, toRefs } from "vue";
+import { ref, computed, toRefs, watch } from "vue";
 export default {
   // Will make refactor
   props: {
@@ -52,6 +56,11 @@ export default {
       required: false,
       type: String,
       default: "",
+    },
+    icon: {
+      default: "fas fa-chevron-down",
+      required: false,
+      type: String
     },
     optionValue: {
       required: false,
@@ -76,6 +85,11 @@ export default {
       type: String,
       required: false,
       default: "Select"
+    },
+    searchable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   emits: ["update:modelValue"],
@@ -86,18 +100,15 @@ export default {
       optionValue,
       optionText,
       returnObject,
+      searchable,
       multiple,
-      label
+      label,
+      icon
     } = toRefs(props);
 
     const show = ref(false);
-    const select = ref();
-
-    const selectClasses = computed(() => {
-      return {
-        select: true,
-      };
-    });
+    const search = ref("")
+    const searchRef = ref(null)
     const selectValueClasses = computed(() => {
       return {
         select__value: true,
@@ -107,7 +118,7 @@ export default {
     const selectArrowClasses = computed(() => {
       return {
         select__icon: true,
-        "fas fa-chevron-down": true,
+        [icon.value]: true,
         select__arrow: true,
         [show.value ? "select__arrow--down" : "select__arrow--up"]: true,
       };
@@ -234,11 +245,22 @@ export default {
       if (firstValueOfType === "string") valueStringTypeHandler(option);
       else if (firstValueOfType === "object") valueObjectTypeHandler(option);
     };
+    const searchableOptions = computed(() => {
+      if(!searchable.value || !search.value) return options.value
+      const valueType = firstOptionOfType()
+      if(valueType === "string") return options.value.filter(opt => opt.toLowerCase().indexOf(search.value.toLowerCase().value) >= 0)
+      else return options.value.filter(opt => opt[optionText.value].toLowerCase().indexOf(search.value.toLowerCase()) >= 0)
+    })
+
+    watch((searchRef), newValue => {
+      (newValue && searchable.value) && searchRef.value.focus()
+    })
     return {
+      searchableOptions,
       empty,
-      select,
+      search,
+      searchRef,
       show,
-      selectClasses,
       selectValueClasses,
       selectArrowClasses,
       selectClearableClasses,
