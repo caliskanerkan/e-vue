@@ -1,14 +1,17 @@
 <template>
   <div style="padding:150px">
     <e-select v-model="text" option-value="value" option-text="name" return-object multiple searchable clearable :options="options"/>
+    <EButton>Test</EButton>
   </div>
 </template>
 <script>
 import ESelect from "@/components/ESelect.vue";
+import EButton from "@/components/EButton.vue";
 import { ref } from "vue";
 export default {
   components: {
-    ESelect
+    ESelect,
+    EButton
   },
   setup() {
     const text = ref("")

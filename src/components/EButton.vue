@@ -4,12 +4,13 @@
       <slot></slot>
     </span>
     <span v-if="loading" class="btn__loading">
-      <e-spinner speed="slow" :size="20" color="#fff" />
+      <e-spinner speed="slow" :size="20" :color="spinnerColor" />
     </span>
   </button>
 </template>
 <script>
 import { toRefs, computed } from "vue";
+import { colors } from "@/utils/color"
 import ESpinner from "./ESpinner.vue";
 export default {
   // when button outline spinner color fix
@@ -108,7 +109,9 @@ export default {
         [`btn--outline--${color.value}`]: outline.value,
       };
     });
+    const spinnerColor = computed(() => !outline.value ? '#fff' : colors[color.value])
     return {
+      spinnerColor,
       iconSizer,
       btnLabelOpacity,
       btnClasses
