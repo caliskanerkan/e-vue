@@ -46,6 +46,7 @@
   transform: rotate(180deg);
 }
 .select__list {
+  z-index: 55;
   border-radius: 3px;
   max-height: 150px;
   overflow-y: auto;
