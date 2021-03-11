@@ -23,14 +23,26 @@
     >
       <div class="select__list" @click.stop v-if="show">
         <div class="select__search" v-if="searchable">
-          <input ref="searchRef" type="text" placeholder="Search..." v-model="search">
+          <input
+            ref="searchRef"
+            type="text"
+            placeholder="Search..."
+            v-model="search"
+          />
         </div>
-        <div class="select__search--no-data" v-if="searchableOptions.length === 0" v-text="'No results found.'"></div>
+        <div
+          class="select__search--no-data"
+          v-if="searchableOptions.length === 0"
+          v-text="'No results found.'"
+        ></div>
         <div
           @click="updateValue(option)"
           v-for="(option, index) in searchableOptions"
           :key="index"
-          :class="[selectListItemClasses, { 'select__list__item--active': activeHandler(option) }]"
+          :class="[
+            selectListItemClasses,
+            { 'select__list__item--active': activeHandler(option) },
+          ]"
         >
           {{ selectLabelText(option) }}
         </div>
@@ -39,7 +51,7 @@
   </div>
 </template>
 <script>
-import { ref, computed, toRefs, watch } from "vue";
+import { ref, computed, toRefs, watchEffect } from "vue";
 export default {
   // Will make refactor
   props: {
@@ -60,7 +72,7 @@ export default {
     icon: {
       default: "fas fa-chevron-down",
       required: false,
-      type: String
+      type: String,
     },
     optionValue: {
       required: false,
@@ -84,13 +96,18 @@ export default {
     label: {
       type: String,
       required: false,
-      default: "Select"
+      default: "Select",
     },
     searchable: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
+    clearIcon: {
+      type: String,
+      required: false,
+      default: "fas fa-times",
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -103,12 +120,13 @@ export default {
       searchable,
       multiple,
       label,
-      icon
+      clearIcon,
+      icon,
     } = toRefs(props);
 
     const show = ref(false);
-    const search = ref("")
-    const searchRef = ref(null)
+    const search = ref("");
+    const searchRef = ref(null);
     const selectValueClasses = computed(() => {
       return {
         select__value: true,
@@ -126,7 +144,7 @@ export default {
     const selectClearableClasses = computed(() => {
       return {
         select__icon: true,
-        "fas fa-times": true,
+        [clearIcon.value]: true,
       };
     });
     const selectListItemClasses = computed(() => {
@@ -174,7 +192,8 @@ export default {
       }
       return _value;
     };
-    const valueReturner = (item) => options.value.filter((opt) => opt[optionValue.value] === item)[0].name;
+    const valueReturner = (item) =>
+      options.value.filter((opt) => opt[optionValue.value] === item)[0].name;
     const selectLabelText = (option) => {
       if (optionText.value) return option[optionText.value];
       else return option;
@@ -233,12 +252,14 @@ export default {
       return typeof firstValue;
     };
     const activeHandler = (option) => {
-        const firstValueOfType = firstOptionOfType();
-        if(!modelValue.value) return false;
-        else if(firstValueOfType === "string") return modelValue.value.some(opt => option === opt)
-        else {
-          return modelValue.value.some(opt => option[optionValue.value] === (returnObject.value ? opt[optionValue.value] : opt))
-        }
+      const firstValueOfType = firstOptionOfType();
+      if (!modelValue.value) return false;
+      else if (firstValueOfType === "string") {
+        return !multiple.value ? modelValue.value === option : modelValue.value.some(opt => opt === option);
+      } else {
+        if(multiple.value) return returnObject.value ? modelValue.value.some(opt => opt === option) : modelValue.value.some(opt => opt[optionValue.value] === option[optionValue.value])
+        else return returnObject.value ? modelValue.value === option : modelValue.value === option[optionValue.value]
+      }
     };
     const updateValue = (option) => {
       const firstValueOfType = firstOptionOfType();
@@ -246,15 +267,28 @@ export default {
       else if (firstValueOfType === "object") valueObjectTypeHandler(option);
     };
     const searchableOptions = computed(() => {
-      if(!searchable.value || !search.value) return options.value
-      const valueType = firstOptionOfType()
-      if(valueType === "string") return options.value.filter(opt => opt.toLowerCase().indexOf(search.value.toLowerCase().value) >= 0)
-      else return options.value.filter(opt => opt[optionText.value].toLowerCase().indexOf(search.value.toLowerCase()) >= 0)
-    })
+      if (!searchable.value || !search.value) return options.value;
+      const valueType = firstOptionOfType();
+      if (valueType === "string")
+        return options.value.filter(
+          (opt) =>
+            opt.toLowerCase().indexOf(search.value.toLowerCase().value) >= 0
+        );
+      else
+        return options.value.filter(
+          (opt) =>
+            opt[optionText.value]
+              .toLowerCase()
+              .indexOf(search.value.toLowerCase()) >= 0
+        );
+    });
 
-    watch((searchRef), newValue => {
-      (newValue && searchable.value) && searchRef.value.focus()
-    })
+    watchEffect(
+      () => {
+        show.value && searchable.value && searchRef.value.focus();
+      },
+      { flush: "post" }
+    );
     return {
       searchableOptions,
       empty,
@@ -270,7 +304,7 @@ export default {
       activeHandler,
       valueText,
       toggle,
-      close
+      close,
     };
   },
 };

@@ -1,26 +1,19 @@
 <template>
-  <!-- Example Usage
-  <Button color="primary" block outline disabled loading>
-    <i class="fas fa-times"></i> Deneme
-  </Button>
-  <Button color="error" round size="small" fab>
-    <i class="fas fa-times"></i>
-  </Button> -->
   <button :class="btnClasses" :style="iconSizer" :disabled="disabled">
     <span class="btn__content" :style="{ opacity: btnLabelOpacity }">
       <slot></slot>
     </span>
     <span v-if="loading" class="btn__loading">
-      <spinner speed="slow" :size="20" color="#fff" />
+      <e-spinner speed="slow" :size="20" color="#fff" />
     </span>
   </button>
 </template>
 <script>
 import { toRefs, computed } from "vue";
-import Spinner from "./Spinner.vue";
+import ESpinner from "./ESpinner.vue";
 export default {
   // when button outline spinner color fix
-  components: { Spinner },
+  components: { ESpinner },
   props: {
     outline: {
       type: Boolean,
