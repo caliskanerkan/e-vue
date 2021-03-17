@@ -213,7 +213,10 @@ export default {
               modelValue.value.filter((v) => v !== option)
             )
           : emit("update:modelValue", [...modelValue.value, option]);
-      } else emit("update:modelValue", option);
+      } else {
+        emit("update:modelValue", option)
+        close()
+      }
     };
     const valueObjectTypeHandler = (option) => {
       const key = optionValue.value;
@@ -241,11 +244,10 @@ export default {
                 returnObject.value ? option : option[key],
               ]);
         }
-      } else
-        return emit(
-          "update:modelValue",
-          returnObject.value ? option : option[key]
-        );
+      } else {
+        emit("update:modelValue", returnObject.value ? option : option[key]);
+        close()
+      }
     };
     const firstOptionOfType = () => {
       const [firstValue] = options.value;
