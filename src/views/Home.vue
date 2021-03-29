@@ -2,7 +2,7 @@
   <div style="padding:150px">
     <!-- <e-select v-model="text" option-value="value" option-text="name" return-object multiple searchable clearable :options="options"/>
     <EButton>Test</EButton> -->
-    <e-pagination v-model="page" :total="50" :visible-page="5"/>
+    <e-pagination color="info" v-model="page" :total="15" :visible-page="7"/>
   </div>
 </template>
 <script>

@@ -13,7 +13,6 @@ import { toRefs, computed } from "vue";
 import { colors } from "@/utils/color"
 import ESpinner from "./ESpinner.vue";
 export default {
-  // when button outline spinner color fix
   components: { ESpinner },
   props: {
     outline: {

@@ -29,6 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     i{
         margin: 0px 5px;
     }
@@ -49,6 +50,7 @@
     padding: .25rem .5rem;
 }
 .btn--primary {
+    border: 1px solid $primary;
     background: $primary;
     &:hover,
     &:focus {
@@ -56,6 +58,7 @@
     }
 }
 .btn--success {
+    border: 1px solid $success;
     background: $success;
     &:hover,
     &:focus {
@@ -63,6 +66,7 @@
     }
 }
 .btn--info {
+    border: 1px solid $info;
     background: $info;
     &:hover,
     &:focus {
@@ -70,6 +74,7 @@
     }
 }
 .btn--warning {
+    border: 1px solid $warning;
     color: $dark;
     background: $warning;
     &:hover,
@@ -78,6 +83,7 @@
     }
 }
 .btn--secondary {
+    border: 1px solid $secondary;
     background: $secondary;
     &:hover,
     &:focus {
@@ -85,6 +91,7 @@
     }
 }
 .btn--error {
+    border: 1px solid $error;
     background: $error;
     &:hover,
     &:focus {
